@@ -29,7 +29,7 @@
                 <p class="text-sm text-slate-500">CPU Usage</p>
 
                 <h2 class="text-4xl font-bold text-blue-600 mt-2">
-                    23%
+                    {{ $metrics['cpu'] }}%
                 </h2>
 
                 <p class="text-green-500 text-sm mt-3">
@@ -42,7 +42,7 @@
                 <p class="text-sm text-slate-500">Memory Usage</p>
 
                 <h2 class="text-4xl font-bold text-purple-600 mt-2">
-                    54%
+                    {{ $metrics['memory'] }}%
                 </h2>
 
                 <p class="text-green-500 text-sm mt-3">
@@ -55,7 +55,7 @@
                 <p class="text-sm text-slate-500">Disk Usage</p>
 
                 <h2 class="text-4xl font-bold text-orange-600 mt-2">
-                    31%
+                    {{ $metrics['disk'] }}%
                 </h2>
 
                 <p class="text-green-500 text-sm mt-3">
@@ -68,7 +68,7 @@
                 <p class="text-sm text-slate-500">Server Uptime</p>
 
                 <h2 class="text-4xl font-bold text-emerald-600 mt-2">
-                    7d
+                    {{ $metrics['uptime'] }}
                 </h2>
 
                 <p class="text-green-500 text-sm mt-3">
