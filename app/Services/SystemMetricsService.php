@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+use App\Models\ServerMetric;
 
 class SystemMetricsService
 {
@@ -80,5 +81,27 @@ class SystemMetricsService
                 'status' => 'Healthy'
             ],
         ];
+    }
+
+    public function getSystemInfo()
+    {
+        return [
+            'hostname' => gethostname(),
+            'php_version' => PHP_VERSION,
+            'laravel_version' => app()->version(),
+            'os' => PHP_OS_FAMILY,
+            'server_time' => now()->format('d M Y H:i:s'),
+        ];
+    }
+
+    public function saveMetrics()
+    {
+        $metrics = $this->getMetrics();
+
+        ServerMetric::create([
+            'cpu' => $metrics['cpu'],
+            'memory' => $metrics['memory'],
+            'disk' => $metrics['disk'],
+        ]);
     }
 }

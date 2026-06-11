@@ -135,7 +135,149 @@
 
         </div>
 
+        <!-- System Info Section -->
+         <div class="mt-10 bg-white rounded-2xl shadow-sm p-6">
+
+            <h2 class="text-xl font-semibold mb-4">
+                System Information
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <div>
+                    <span class="font-medium">Hostname:</span>
+                    {{ $systemInfo['hostname'] }}
+                </div>
+
+                <div>
+                    <span class="font-medium">Operating System:</span>
+                    {{ $systemInfo['os'] }}
+                </div>
+
+                <div>
+                    <span class="font-medium">PHP Version:</span>
+                    {{ $systemInfo['php_version'] }}
+                </div>
+
+                <div>
+                    <span class="font-medium">Laravel Version:</span>
+                    {{ $systemInfo['laravel_version'] }}
+                </div>
+
+                <div>
+                    <span class="font-medium">Server Time:</span>
+                    {{ $systemInfo['server_time'] }}
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Metrics Chart Section -->
+        <div class="mt-10 bg-white rounded-2xl shadow-sm p-6">
+
+            <h2 class="text-xl font-semibold mb-4">
+                Performance Trends
+            </h2>
+
+            <canvas id="metricsChart"></canvas>
+
+        </div>
+
+        <!-- Metrics History Section -->
+        <div class="mt-10 bg-white rounded-2xl shadow-sm p-6">
+
+            <h2 class="text-xl font-semibold mb-4">
+                Metrics History
+            </h2>
+
+            <div class="overflow-x-auto">
+
+                <table class="w-full">
+
+                    <thead>
+                        <tr class="border-b">
+                            <th class="text-left py-3">CPU</th>
+                            <th class="text-left py-3">Memory</th>
+                            <th class="text-left py-3">Disk</th>
+                            <th class="text-left py-3">Timestamp</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach($recentMetrics as $metric)
+
+                        <tr class="border-b">
+
+                            <td class="py-3">
+                                {{ $metric->cpu }}%
+                            </td>
+
+                            <td class="py-3">
+                                {{ $metric->memory }}%
+                            </td>
+
+                            <td class="py-3">
+                                {{ $metric->disk }}%
+                            </td>
+
+                            <td class="py-3">
+                                {{ $metric->created_at->format('d M Y H:i:s') }}
+                            </td>
+
+                        </tr>
+
+                        @endforeach
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+        const labels = @json(
+            $chartMetrics->pluck('created_at')
+                ->map(fn($date) => $date->format('H:i:s'))
+        );
+
+        const cpuData = @json($chartMetrics->pluck('cpu'));
+        const memoryData = @json($chartMetrics->pluck('memory'));
+        const diskData = @json($chartMetrics->pluck('disk'));
+
+        new Chart(
+            document.getElementById('metricsChart'),
+            {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'CPU Usage',
+                            data: cpuData
+                        },
+                        {
+                            label: 'Memory Usage',
+                            data: memoryData
+                        },
+                        {
+                            label: 'Disk Usage',
+                            data: diskData
+                        }
+                    ]
+                }
+            }
+        );
+
+    </script>
 
 </body>
 </html>
