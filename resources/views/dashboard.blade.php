@@ -173,17 +173,6 @@
 
         </div>
 
-        <!-- Metrics Chart Section -->
-        <div class="mt-10 bg-white rounded-2xl shadow-sm p-6">
-
-            <h2 class="text-xl font-semibold mb-4">
-                Performance Trends
-            </h2>
-
-            <canvas id="metricsChart"></canvas>
-
-        </div>
-
         <!-- Metrics History Section -->
         <div class="mt-10 bg-white rounded-2xl shadow-sm p-6">
 
@@ -235,6 +224,18 @@
                 </table>
 
             </div>
+
+        </div>
+
+        
+        <!-- Metrics Chart Section -->
+        <div class="mt-10 bg-white rounded-2xl shadow-sm p-6">
+
+            <h2 class="text-xl font-semibold mb-4">
+                Performance Trends
+            </h2>
+
+            <canvas id="metricsChart"></canvas>
 
         </div>
 
