@@ -9,5 +9,11 @@ Route::get('/', function () {
 
 Route::get('/', function (SystemMetricsService $metricsService) {
     $metrics = $metricsService->getMetrics();
-    return view('dashboard', compact('metrics'));
+    $healthChecks = $metricsService->getHealthChecks();
+    $lastUpdated = now()->format('d M Y H:i:s');
+    return view('dashboard', compact(
+    'metrics',
+    'healthChecks',
+    'lastUpdated'
+    ));
 });

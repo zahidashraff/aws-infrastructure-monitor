@@ -19,6 +19,9 @@
             <p class="text-slate-500 mt-2">
                 Monitor server health and infrastructure metrics.
             </p>
+            <p class="text-sm text-slate-400 mt-1">
+                Last Updated: {{ $lastUpdated }}
+            </p>
         </div>
 
         <!-- Metrics -->
@@ -32,8 +35,17 @@
                     {{ $metrics['cpu'] }}%
                 </h2>
 
-                <p class="text-green-500 text-sm mt-3">
-                    Healthy
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-200 rounded-full h-2 mt-4">
+                    <div
+                        class="bg-blue-500 h-2 rounded-full"
+                        style="width: {{ $metrics['cpu'] }}%">
+                    </div>
+                </div>
+
+                <p class="text-sm mt-3
+                    {{ $metrics['cpu'] < 70 ? 'text-green-500' : 'text-red-500' }}">
+                    {{ $metrics['cpu'] < 70 ? 'Healthy' : 'High Usage' }}
                 </p>
             </div>
 
@@ -45,8 +57,16 @@
                     {{ $metrics['memory'] }}%
                 </h2>
 
-                <p class="text-green-500 text-sm mt-3">
-                    Normal
+                <div class="w-full bg-slate-200 rounded-full h-2 mt-4">
+                    <div
+                        class="bg-purple-500 h-2 rounded-full"
+                        style="width: {{ $metrics['memory'] }}%">
+                    </div>
+                </div>
+
+                <p class="text-sm mt-3
+                    {{ $metrics['memory'] < 80 ? 'text-green-500' : 'text-red-500' }}">
+                    {{ $metrics['memory'] < 80 ? 'Normal' : 'High Usage' }}
                 </p>
             </div>
 
@@ -58,8 +78,16 @@
                     {{ $metrics['disk'] }}%
                 </h2>
 
-                <p class="text-green-500 text-sm mt-3">
-                    Available
+                <div class="w-full bg-slate-200 rounded-full h-2 mt-4">
+                    <div
+                        class="bg-orange-500 h-2 rounded-full"
+                        style="width: {{ $metrics['disk'] }}%">
+                    </div>
+                </div>
+
+                <p class="text-sm mt-3
+                    {{ $metrics['disk'] < 85 ? 'text-green-500' : 'text-red-500' }}">
+                    {{ $metrics['disk'] < 85 ? 'Available' : 'Low Storage' }}
                 </p>
             </div>
 
@@ -87,20 +115,21 @@
 
             <div class="space-y-3">
 
-                <div class="flex justify-between">
-                    <span>Nginx</span>
-                    <span class="text-green-600 font-semibold">Running</span>
-                </div>
+                @foreach($healthChecks as $check)
 
-                <div class="flex justify-between">
-                    <span>MySQL</span>
-                    <span class="text-green-600 font-semibold">Running</span>
-                </div>
+                    <div class="flex justify-between py-2 border-b border-slate-100">
 
-                <div class="flex justify-between">
-                    <span>Laravel Queue</span>
-                    <span class="text-green-600 font-semibold">Running</span>
-                </div>
+                        <span>
+                            {{ $check['name'] }}
+                        </span>
+
+                        <span class="text-green-600 font-semibold">
+                            {{ $check['status'] }}
+                        </span>
+
+                    </div>
+
+                @endforeach
 
             </div>
 

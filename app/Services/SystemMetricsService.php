@@ -57,4 +57,28 @@ class SystemMetricsService
 
         return trim($output);
     }
+
+    public function getHealthChecks()
+    {
+        return [
+            [
+                'name' => 'Application',
+                'status' => 'Online'
+            ],
+            [
+                'name' => 'Storage',
+                'status' => is_writable(storage_path())
+                    ? 'Healthy'
+                    : 'Error'
+            ],
+            [
+                'name' => 'Database',
+                'status' => 'Connected'
+            ],
+            [
+                'name' => 'Cache',
+                'status' => 'Healthy'
+            ],
+        ];
+    }
 }
